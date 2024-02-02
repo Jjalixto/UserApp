@@ -1,6 +1,7 @@
+import React from "react";
 import { UserRow } from "./UserRow";
 
-export const UserList = ({users = []}) => {
+export const UsersList = ({handlerUserSelectedForm, handlerRemoveUser, users = []}) => {
 
     return(
             <table className="table table-hover table-striped">
@@ -21,6 +22,8 @@ export const UserList = ({users = []}) => {
                             id = {id}
                             username = {username}
                             email = {email}
+                            handlerRemoveUser = { handlerRemoveUser }
+                            handlerUserSelectedForm = { handlerUserSelectedForm }
                            />
                         ))
                     }

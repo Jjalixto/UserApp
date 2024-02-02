@@ -1,10 +1,9 @@
 import React from "react";
-import { UsersList } from "./components/UsersList";
-import { useUsers } from "./hooks/useUsers";
-import { UserModalForm } from "./components/UserModalForm";
-
+import { UsersList } from "../components/UsersList";
+import { useUsers } from "../hooks/useUsers";
+import { UserModalForm } from "../components/UserModalForm";
     
-export const UsersApp = () => {
+export const UsersPage = () => {
 
     const {
         users,

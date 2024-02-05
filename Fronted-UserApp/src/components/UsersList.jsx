@@ -11,6 +11,7 @@ export const UsersList = ({handlerUserSelectedForm, handlerRemoveUser, users = [
                         <th>Username</th>
                         <th>Email</th>
                         <th>Updated</th>
+                        <th>Edit Route</th>
                         <th>Remove</th>
                     </tr>
                 </thead>

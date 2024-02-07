@@ -8,12 +8,13 @@ export const UserProvider = ({ children }) => {
         userSelected,
         initialUserForm,
         visibleForm,
-
+        errors,
         handlerAddUser,
         handlerRemoveUser,
         handlerUserSelectedForm,
         handlerCloseForm,
         handlerOpenForm,
+        getUsers,
     } = useUsers();
 
     return (
@@ -23,15 +24,17 @@ export const UserProvider = ({ children }) => {
                 userSelected,
                 initialUserForm,
                 visibleForm,
-        
+                errors,
                 handlerAddUser,
                 handlerRemoveUser,
                 handlerUserSelectedForm,
                 handlerCloseForm,
                 handlerOpenForm,  
+                getUsers,
             }
         }>
             {children}
         </UserContext.Provider>
+            
     );
 }

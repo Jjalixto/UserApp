@@ -9,7 +9,6 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import com.fasterxml.jackson.core.exc.StreamReadException;
@@ -41,8 +40,8 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                     username = user.getUsername();
                     password = user.getPassword();
 
-                    logger.info("Username desde request InputStream (raw)" + username);
-                    logger.info("Username desde request InputStream (raw)" + password);
+                    // logger.info("Username desde request InputStream (raw)" + username);
+                    // logger.info("Username desde request InputStream (raw)" + password);
 
                 } catch (StreamReadException e) {
                     e.printStackTrace();
@@ -58,11 +57,11 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     @Override
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain,Authentication authResult) throws IOException, ServletException {
             
-        String username = ((UserDetails)authResult.getPrincipal()).getUsername();
+        String username = ((org.springframework.security.core.userdetails.User)authResult.getPrincipal()).getUsername();
         String originalInput = "algun_token_con_alguna_frase_secreta." + username;
         String token = Base64.getEncoder().encodeToString(originalInput.getBytes());
 
-        response.addHeader("Authorization", "Bearer" + token);
+        response.addHeader("Authorization", "Bearer " + token);
 
         Map<String,Object> body = new HashMap<>();
         body.put("token", token);
@@ -84,5 +83,5 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         response.getWriter().write(new ObjectMapper().writeValueAsString(body));
         response.setStatus(401);
         response.setContentType("application/json");
-    }
+    }   
 }

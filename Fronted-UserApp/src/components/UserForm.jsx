@@ -9,7 +9,9 @@ export const UserForm = ({ handlerCloseForm, userSelected }) => {
 
     const [userForm, setUserForm] = useState(initialUserForm);
 
-    const { id, username, password, email } = userForm;
+    const [ checked, setChecked ] = useState(userForm.admin);
+
+    const { id, username, password, email, admin } = userForm;
 
     useEffect( () => {
         setUserForm({
@@ -25,6 +27,14 @@ export const UserForm = ({ handlerCloseForm, userSelected }) => {
             // se utiliza el operador express para recuperar datos
             ...userForm,
             [name]: value,
+        })
+    }
+
+    const onCheckboxChange = () => {
+        setChecked(!checked);
+        setUserForm({
+            ...userForm,
+            admin: checked,
         })
     }
 
@@ -86,6 +96,19 @@ export const UserForm = ({ handlerCloseForm, userSelected }) => {
             />
              <p className="text-danger">{ errors?.email } </p>
              
+             <div className="my-3 form-check">
+                <input 
+                    type="checkbox" 
+                    name="admin" 
+                    checked={admin} 
+                    className="form-check-input"
+                    onChange={onCheckboxChange}
+                    />
+                    <label className="form-check-label">
+                        Admin
+                    </label>
+             </div>
+
              <input 
                 type="hidden"
                 name="id"

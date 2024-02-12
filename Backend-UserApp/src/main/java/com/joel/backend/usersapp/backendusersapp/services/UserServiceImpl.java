@@ -54,10 +54,7 @@ public class UserServiceImpl implements UserService{
     @Transactional
     public UserDto save(User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-
-        List<Role> roles = getRoles(user);
-
-        user.setRoles(roles);
+        user.setRoles(getRoles(user));
         return DtoMapperUser.builder().setUser(repository.save(user)).build();   
     }
 
@@ -67,11 +64,9 @@ public class UserServiceImpl implements UserService{
         Optional<User> o = repository.findById(id);
         User userOptional =null;
         if(o.isPresent()){
-            
-           List<Role> roles = getRoles(user);
-
+    
             User userDb = o.orElseThrow();
-            userDb.setRoles(roles);
+            userDb.setRoles(getRoles(user));
             userDb.setUsername(user.getUsername());
             userDb.setEmail(user.getEmail());
             userOptional = repository.save(userDb);

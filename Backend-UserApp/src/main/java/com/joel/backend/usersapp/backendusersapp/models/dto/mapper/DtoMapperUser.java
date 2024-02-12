@@ -1,7 +1,7 @@
-package com.joel.backend.usersapp.backendusersapp.models.entities.dto.mapper;
+package com.joel.backend.usersapp.backendusersapp.models.dto.mapper;
 
+import com.joel.backend.usersapp.backendusersapp.models.dto.UserDto;
 import com.joel.backend.usersapp.backendusersapp.models.entities.User;
-import com.joel.backend.usersapp.backendusersapp.models.entities.dto.UserDto;
 
 public class DtoMapperUser {
 
@@ -23,6 +23,7 @@ public class DtoMapperUser {
         if(user == null){
             throw new RuntimeException("Debe pasar el entity user!");
         }
-        return new UserDto(this.user.getId(), user.getUsername(),user.getEmail());
+        boolean isAdmin = user.getRoles().stream().anyMatch(r -> "ROLE_ADMIN".equals(r.getName()));
+        return new UserDto(this.user.getId(), user.getUsername(),user.getEmail(), isAdmin);
     }
 }

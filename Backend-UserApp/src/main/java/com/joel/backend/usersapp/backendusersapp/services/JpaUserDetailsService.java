@@ -1,8 +1,10 @@
 package com.joel.backend.usersapp.backendusersapp.services;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
@@ -10,23 +12,36 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.joel.backend.usersapp.backendusersapp.repositories.UserRepository;
 
 @Service
 public class JpaUserDetailsService implements UserDetailsService {
 
-    @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    @Autowired
+    private UserRepository repository;
 
-        if(!username.equals("admin")){
+    @Override
+    @Transactional(readOnly = true) //como es una consulta nomas 
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        //se importa el user completo por que ya hay un user importado arriba
+        Optional<com.joel.backend.usersapp.backendusersapp.models.entities.User> o = repository.findByUsername(username);
+        
+        if(!o.isPresent()){
             throw new UsernameNotFoundException(String.format("Username no existe en el sistema!", username));
         }
 
-        List<GrantedAuthority> authorities = new ArrayList<>();
-        authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
+        com.joel.backend.usersapp.backendusersapp.models.entities.User user = o.orElseThrow();
+
+        List<GrantedAuthority> authorities = user.getRoles()
+                                                 .stream()
+                                                 .map( r -> new SimpleGrantedAuthority(r.getName()))
+                                                 .collect(Collectors.toList());
 
         return new User(
-                username,
-                "$2a$10$DOMDxjYyfZ/e7RcBfUpzqeaCs8pLgcizuiQWXPkU35nOhZlFcE9MS",
+                user.getUsername(),
+                user.getPassword(),
                 true,
                 true,
                 true,

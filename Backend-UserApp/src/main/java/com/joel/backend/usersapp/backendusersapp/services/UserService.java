@@ -4,16 +4,17 @@ import java.util.List;
 import java.util.Optional;
 
 import com.joel.backend.usersapp.backendusersapp.models.entities.User;
+import com.joel.backend.usersapp.backendusersapp.models.entities.dto.UserDto;
 
 public interface UserService {
 
-    List<User> findAll();
+    List<UserDto> findAll();
     
-    Optional<User> findById(Long id);
+    Optional<UserDto> findById(Long id);
 
-    User save(User user);
+    UserDto save(User user);
 
-    Optional<User> update(User user, Long id);
+    Optional<UserDto> update(User user, Long id);
 
     void remove(Long id);
 }

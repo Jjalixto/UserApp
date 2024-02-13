@@ -32,7 +32,7 @@ export const useUsers = () => {
     const navigate = useNavigate();
     const { login, handlerLogout } = useContext(AuthContext);
 
-    const getUsers = async() => {
+    const getUsers = async() => {   
 
         try {
             const result = await findAll();
@@ -130,8 +130,8 @@ export const useUsers = () => {
 
     const handlerUserSelectedForm = (user) => {
         // console.log(user);
-        setUserSelected({...user});
         setVisibleForm(true);
+        setUserSelected({...user});   
     }
 
    const handlerOpenForm = () => {

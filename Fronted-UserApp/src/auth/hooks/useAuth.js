@@ -4,7 +4,6 @@ import Swal from "sweetalert2";
 import { loginUser } from "../services/authService";
 import { useNavigate } from "react-router-dom";
 
-
 const initialLogin = JSON.parse(sessionStorage.getItem('login',)) || {
     isAuth: false,
     isAdmin:false,
@@ -24,8 +23,8 @@ export const useAuth = () => {
             
             //se obtiene del token los datos  atob decodifica en bases64
             const claims = JSON.parse(window.atob(token.split(".")[1]));
-            console.log(claims);
-            const user= { username: claims.username }
+            // console.log(claims);
+            const user= { username: claims.sub }
             dispatch({
                 type: 'login',
                 payload: {
@@ -43,13 +42,13 @@ export const useAuth = () => {
         }catch(error){
             if(error.response?.status == 401){
                 Swal.fire(
-                    'Error de validacion',
+                    'Error login',
                     'Username y password invalidos',
                     'error'
                 )
             }else if(error.response?.status == 403){
                 Swal.fire(
-                    'Error de validacion',
+                    'Error login',
                     'No tiene acceso al recurso o permisos',
                     'error'
                 ) 

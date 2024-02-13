@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.joel.backend.usersapp.backendusersapp.models.dto.UserDto;
 import com.joel.backend.usersapp.backendusersapp.models.entities.User;
+import com.joel.backend.usersapp.backendusersapp.models.request.UserRequest;
 import com.joel.backend.usersapp.backendusersapp.services.UserService;
 
 import jakarta.validation.Valid;
@@ -58,7 +59,7 @@ public class UserController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> update(@Valid @RequestBody User user, BindingResult result, @PathVariable Long id) {
+    public ResponseEntity<?> update(@Valid @RequestBody UserRequest user, BindingResult result, @PathVariable Long id) {
         if(result.hasErrors()){
             return validation(result);
         }

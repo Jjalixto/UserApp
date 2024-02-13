@@ -10,10 +10,12 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.joel.backend.usersapp.backendusersapp.models.IUser;
 import com.joel.backend.usersapp.backendusersapp.models.dto.UserDto;
 import com.joel.backend.usersapp.backendusersapp.models.dto.mapper.DtoMapperUser;
 import com.joel.backend.usersapp.backendusersapp.models.entities.Role;
 import com.joel.backend.usersapp.backendusersapp.models.entities.User;
+import com.joel.backend.usersapp.backendusersapp.models.request.UserRequest;
 import com.joel.backend.usersapp.backendusersapp.repositories.RoleRepository;
 import com.joel.backend.usersapp.backendusersapp.repositories.UserRepository;
 
@@ -60,7 +62,7 @@ public class UserServiceImpl implements UserService{
 
     @Override
     @Transactional
-    public Optional<UserDto> update(User user, Long id) {
+    public Optional<UserDto> update(UserRequest user, Long id) {
         Optional<User> o = repository.findById(id);
         User userOptional =null;
         if(o.isPresent()){
@@ -80,7 +82,7 @@ public class UserServiceImpl implements UserService{
         repository.deleteById(id);
     }
 
-    private List<Role> getRoles(User user){
+    private List<Role> getRoles(IUser  user){
         Optional<Role> ou = roleRepository.findByName("ROLE_USER");
         List<Role> roles = new ArrayList<>();
         if(ou.isPresent()){

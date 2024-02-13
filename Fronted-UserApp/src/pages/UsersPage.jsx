@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import { useContext, useEffect } from "react";
 import { UsersList } from "../components/UsersList";
 import { UserModalForm } from "../components/UserModalForm";
 import { UserContext } from "../context/UserContext";

@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import com.joel.backend.usersapp.backendusersapp.models.dto.UserDto;
 import com.joel.backend.usersapp.backendusersapp.models.entities.User;
+import com.joel.backend.usersapp.backendusersapp.models.request.UserRequest;
 
 public interface UserService {
 
@@ -14,7 +15,7 @@ public interface UserService {
 
     UserDto save(User user);
 
-    Optional<UserDto> update(User user, Long id);
+    Optional<UserDto> update(UserRequest user, Long id);
 
     void remove(Long id);
 }

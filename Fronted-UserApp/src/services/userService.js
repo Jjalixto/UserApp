@@ -1,7 +1,6 @@
-import axios from "axios"
 import usersApi from "../apis/usersApi";
 
-const BASE_URL = "";
+const BASE_URL = '';
 
 // const config = () => {
 //     return{
@@ -30,7 +29,7 @@ export const save = async({ username, email, password, admin }) => {
             email,
             password,
             admin,
-        },);
+        });
     } catch (error) {
         throw error;
     }
@@ -42,9 +41,9 @@ export const update = async({ id, username, email, admin }) => {
         return await usersApi.put(`${BASE_URL}/${id}`,{
             username,
             email,
-            password: 'nothing',
+            // password: 'nothing',
             admin,
-        }, );
+        });
     } catch (error) {
         throw error;
     }
@@ -52,7 +51,7 @@ export const update = async({ id, username, email, admin }) => {
 
 export const remove = async(id) => {
     try {
-        await usersApi.delete(`${BASE_URL}/${id}`, config());
+        await usersApi.delete(`${BASE_URL}/${id}`);
     } catch (error) {
         // console.error(error);
         throw error;

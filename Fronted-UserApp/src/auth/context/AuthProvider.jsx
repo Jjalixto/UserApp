@@ -4,6 +4,7 @@ import { AuthContext } from "./AuthContext";
 export const AuthProvider = ({ children }) =>{
 
     const { login, handlerLogin, handlerLogout } = useAuth();
+    
     return (
         <AuthContext.Provider value={
             {
@@ -14,5 +15,5 @@ export const AuthProvider = ({ children }) =>{
         }>
             { children }
         </AuthContext.Provider>
-    );
+    )
 }

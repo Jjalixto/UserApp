@@ -1,26 +1,23 @@
-package com.joel.backend.usersapp.backendusersapp.models.dto;
+package com.joel.backend.usersapp.backendusersapp.models.request;
 
-public class UserDto {
-    private Long id;
+import com.joel.backend.usersapp.backendusersapp.models.IUser;
+
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Size;
+
+public class UserRequest implements IUser {
+    @NotBlank
+    @Size(min = 4, max = 12)
     private String username;
+
+    @NotEmpty
+    @Email
     private String email;
+
     private boolean admin;
 
-    public UserDto(Long id, String username, String email, boolean admin) {
-        this.id = id;
-        this.username = username;
-        this.email = email;
-        this.admin = admin;
-    }
-    public UserDto() {
-    }
-    
-    public Long getId() {
-        return id;
-    }
-    public void setId(Long id) {
-        this.id = id;
-    }
     public String getUsername() {
         return username;
     }
@@ -30,14 +27,17 @@ public class UserDto {
     public String getEmail() {
         return email;
     }
+
     public void setEmail(String email) {
         this.email = email;
     }
+
+    @Override
     public boolean isAdmin() {
         return admin;
     }
     public void setAdmin(boolean admin) {
         this.admin = admin;
     }
-    
+
 }

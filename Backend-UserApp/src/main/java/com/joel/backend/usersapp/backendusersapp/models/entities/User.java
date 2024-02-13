@@ -2,6 +2,8 @@ package com.joel.backend.usersapp.backendusersapp.models.entities;
 
 import java.util.List;
 
+import com.joel.backend.usersapp.backendusersapp.models.IUser;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -20,14 +22,14 @@ import jakarta.validation.constraints.Size;
 
 @Entity
 @Table(name="users")
-public class User {
+public class User implements IUser {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotBlank
-    @Size(min = 4, max = 8)
+    @Size(min = 4, max = 12)
     @Column(unique = true)
     private String username;
 
@@ -90,6 +92,7 @@ public class User {
         this.roles = roles;
     }
 
+    @Override
     public boolean isAdmin() {
         return admin;
     }

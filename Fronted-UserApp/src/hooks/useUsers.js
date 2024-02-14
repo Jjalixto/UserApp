@@ -1,9 +1,10 @@
 import { useContext, useReducer, useState } from "react";
-import { usersReducer } from "../reducers/usersReducer";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 import { findAll, remove, save, update } from "../services/userService";
 import { AuthContext } from "../auth/context/AuthContext";
+import { useDispatch, useSelector } from "react-redux";
+import { addUser, loadingUsers, removeUser, updateUser } from "../store/slices/users/usersSlice";
 
 const initialUsers = [];
 
@@ -25,7 +26,9 @@ export const useUsers = () => {
 
      //users es una variable cualquier cambio que se realice se vera reflejado abajo
     //por que se esta pasando como una props
-    const [users, dispatch] = useReducer(usersReducer, initialUsers);
+    // const [users, dispatch] = useReducer(usersReducer, initialUsers);
+    const { users } = useSelector( state => state.users);  // selecciona del slice los usuarios
+    const dispatch = useDispatch();
     const [userSelected, setUserSelected] = useState(initialUserForm); 
     const [visibleForm, setVisibleForm] = useState(false);
     const [errors, setErrors] = useState(initialErrors);
@@ -36,11 +39,8 @@ export const useUsers = () => {
 
         try {
             const result = await findAll();
-            console.log(result);
-            dispatch({
-                type: 'loadingUsers',
-                payload: result.data,
-            })
+            // console.log(result);
+            dispatch(loadingUsers(result.data));
         } catch (error) {
             if(error.response?.status == 401){
                 handlerLogout();
@@ -57,14 +57,16 @@ export const useUsers = () => {
             
             if(user.id === 0){
                 response = await save(user);
+                dispatch(addUser(response.data))
             }else{
                 response = await update(user);
+                dispatch(updateUser(response.data));
             }
     
-            dispatch({
-                type:(user.id === 0) ? 'addUser' : 'updateUser',
-                payload: response.data,
-            });
+            // dispatch({
+            //     type:(user.id === 0) ? 'addUser' : 'updateUser',
+            //     payload: response.data,
+            // });
     
             Swal.fire(
                 (user.id === 0 ) ? "Usuario Creado" : "Usuario Actualizado",
@@ -110,10 +112,11 @@ export const useUsers = () => {
 
                try {
                     await remove(id);
-                    dispatch({
-                        type: 'removeUser',
-                        payload: id,
-                    });
+                    dispatch(removeUser(id));
+                    // dispatch({
+                    //     type: 'removeUser',
+                    //     payload: id,
+                    // });
                     Swal.fire({
                     title: "Usuario Eliminado!",
                     text: "El usuario a sido eliminado con exito!",

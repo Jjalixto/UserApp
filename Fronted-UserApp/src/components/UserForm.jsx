@@ -1,29 +1,25 @@
-import { useContext, useEffect, useState } from "react";
-import { UserContext } from "../context/UserContext";
+import { useEffect, useState } from "react"
+import { useUsers } from "../hooks/useUsers";
 
+export const UserForm = ({ userSelected, handlerCloseForm }) => {
 
-export const UserForm = ({ handlerCloseForm, userSelected }) => {
-
-    const { initialUserForm, handlerAddUser, errors } = useContext(UserContext);
-
+    const { initialUserForm, handlerAddUser, errors } = useUsers();
+    
     const [userForm, setUserForm] = useState(initialUserForm);
-
-    const [ checked, setChecked ] = useState(userForm.admin);
-
+    const [checked, setChecked] = useState(userForm.admin);
     const { id, username, password, email, admin } = userForm;
 
-    useEffect( () => {
+    useEffect(() => {
         setUserForm({
             ...userSelected,
             password: '',
         });
-    }, [userSelected]); 
+    }, [userSelected]);
 
     const onInputChange = ({ target }) => {
-        // console.log(target.value);
+        // console.log(target.value)
         const { name, value } = target;
         setUserForm({
-            // se utiliza el operador express para recuperar datos
             ...userForm,
             [name]: value,
         })
@@ -34,31 +30,32 @@ export const UserForm = ({ handlerCloseForm, userSelected }) => {
         setUserForm({
             ...userForm,
             admin: checked,
-        })
+        }
+        );
     }
 
     const onSubmit = (event) => {
         event.preventDefault();
-        // if(!username || (!password && id === 0) || !email){
-        //     Swal.fire({
-        //         title: "Error de validacion",
-        //         text: "Debe completar los campos del formulario",
-        //         icon: "error"
-        //       });
+        // if (!username || (!password && id === 0) || !email) {
+        //     Swal.fire(
+        //         'Error de validacion',
+        //         'Debe completar los campos del formulario!',
+        //         'error'
+        //     );
+
         //     return;
         // }
-        // if(!email.includes("@")){
-        //     Swal.fire({
-        //         title: "Error de validacion de email",
-        //         text: "El email debe de ser valido, incluir un @!",
-        //         icon: "error"
-        //     });
+        // if (!email.includes('@')) {
+        //     Swal.fire(
+        //         'Error de validacion email',
+        //         'El email debe ser valido, incluir un @!',
+        //         'error'
+        //     );
         //     return;
         // }
-        // console.log("enviando el formulario para guardar los datos");
         // console.log(userForm);
 
-        //guardar el user form en el listado de usuarios
+        // guardar el user form en el listado de usuarios
         handlerAddUser(userForm);
     }
 
@@ -66,66 +63,60 @@ export const UserForm = ({ handlerCloseForm, userSelected }) => {
         handlerCloseForm();
         setUserForm(initialUserForm);
     }
-
     return (
         <form onSubmit={ onSubmit }>
-            <input 
+            <input
                 className="form-control my-3 w-75"
                 placeholder="Username"
                 name="username"
-                value={username}
-                onChange={ onInputChange} />
-            <p className="text-danger">{ errors?.username } </p>
-
-            { id > 0 ||  <input 
+                value={ username}
+                onChange={onInputChange} />
+            <p className="text-danger">{ errors?.username}</p>
+            
+            { id > 0 || <input
                 className="form-control my-3 w-75"
                 placeholder="Password"
                 type="password"
                 name="password"
                 value={password}
-                onChange={ onInputChange} />}
-             <p className="text-danger">{ errors?.password } </p>
-           
-            <input 
+                onChange={onInputChange} />}
+            <p className="text-danger">{errors?.password}</p>
+            
+            <input
                 className="form-control my-3 w-75"
                 placeholder="Email"
                 name="email"
                 value={email}
-                onChange={ onInputChange}
-            />
-             <p className="text-danger">{ errors?.email } </p>
-             
-             <div className="my-3 form-check">
-                <input 
-                    type="checkbox" 
-                    name="admin" 
-                    checked={admin} 
+                onChange={onInputChange} />
+            <p className="text-danger">{errors?.email}</p>
+
+            <div className="my-3 form-check">
+                <input type="checkbox"
+                    name="admin"
+                    checked={admin}
                     className="form-check-input"
                     onChange={onCheckboxChange}
-                    />
-                    <label className="form-check-label">
-                        Admin
-                    </label>
-             </div>
+                />
+                <label className="form-check-label">Admin</label>
+            </div>
 
-             <input 
-                type="hidden"
+            <input type="hidden"
                 name="id"
-                value={id}
-            />
+                value={id} />
+            
             <button
                 className="btn btn-primary"
                 type="submit">
-                { id > 0 ? 'Editar' : 'Crear'}
+                {id > 0 ? 'Editar' : 'Crear'}
             </button>
-            { !handlerCloseForm ||  <button
+
+            {!handlerCloseForm || <button
                 className="btn btn-primary mx-2"
                 type="button"
-                onClick={ () => onCloseForm() }
-                >
+                onClick={() => onCloseForm()}>
                 Cerrar
-            </button> }
-           
+            </button>}
+            
         </form>
-    );
+    )
 }
